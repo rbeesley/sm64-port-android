@@ -25,6 +25,8 @@ TARGET_WEB ?= 0
 COMPILER ?= ido
 # TOUCH CONTROLS
 TOUCH_CONTROLS ?= 1
+# Widescreen
+WIDESCREEN ?= 1
 
 # Automatic settings only for ports
 ifeq ($(TARGET_N64),0)
@@ -505,7 +507,7 @@ ifeq ($(ENABLE_OPENGL),1)
     GFX_LDFLAGS += -lGL $(shell sdl2-config --libs) -lX11 -lXrandr
   endif
   ifeq ($(TARGET_ANDROID),1)
-    GFX_CFLAGS  += -DUSE_GLES -DTOUCH_CONTROLS
+    GFX_CFLAGS  += -DUSE_GLES
     GFX_LDFLAGS += -lhidapi -lSDL2 -lGLESv2
   endif
   ifeq ($(TARGET_WEB),1)
@@ -521,9 +523,9 @@ ifeq ($(ENABLE_DX12),1)
   GFX_CFLAGS := -DENABLE_DX12
   PLATFORM_LDFLAGS += -lgdi32 -static
 endif
-
-GFX_CFLAGS += -DWIDESCREEN
-
+ifeq ($(WIDESCREEN),1)
+  GFX_CFLAGS += -DWIDESCREEN
+endif
 ifeq ($(TOUCH_CONTROLS),1)
   GFX_CFLAGS += -DTOUCH_CONTROLS
 endif
